@@ -1,8 +1,9 @@
-﻿
+<!doctype html>
+<html>
 
 <head>
     <meta charset="utf-8">
-    <title>寶貝我愛你</title>
+    <title>canvas爱心</title>
 
     <style>
         html,
@@ -10,23 +11,7 @@
             height: 100%;
             padding: 0;
             margin: 0;
-            /* 修改下面的值可以改变背景颜色 */
-            background: #000000;
-
-            /* background: url(https://i.imgtg.com/2022/11/17/t4T7b.jpg) no-repeat center center; */
-            background-size: cover;
-            height: 100vh;
-
-        }
-
-        body::after {
-            content: '';
-            display: block;
-            position: absolute;
-            width: 100%;
-            height: 100vh;
-            -webkit-background-color: rgba(0, 0, 0, .5);
-            background-color: rgba(0, 0, 0, 0.27);
+            background: #000;
         }
 
         canvas {
@@ -45,22 +30,6 @@
         /*
          * Settings
          */
-
-        var words_attr = [];
-        var words = []
-
-        var name = '我的寶貝'; // 洋子：修改周边漂浮的文字 名字
-        var name3 = 'I Love U'; // 洋子：修改周边漂浮的文字 名字
-        var name2 = '吳宣慧'; // 洋子：在中心的名字
-        var count = '20';     // 洋子：修改漂浮文字数量
-        var nameHeartFont = "50px "; // 洋子：修改数值则修改中心名字的大小
-        var myfont = " Times New Roman "; //洋子：改成你电脑上有的字体
-        var nameFlowColor = '#ffc0cb'; // 飘动名字的颜色，#cc0000为红色。#ffffff是白色。#ffff00是黄色 
-        var nameHeartColor = '#ffc0cb'; // 爱心名字的颜色，#cc0000为红色
-        for (var i = 0; i < count; i++) {
-            words.push(name);
-            words.push(name3);
-        }
         var settings = {
             particles: {
                 length: 500, // maximum amount of particles
@@ -231,8 +200,8 @@
                 // helper function to create the path
                 function to(t) {
                     var point = pointOnHeart(t);
-                    point.x = settings.particles.size / 2 + point.x * settings.particles.size / 450;
-                    point.y = settings.particles.size / 2 - point.y * settings.particles.size / 450;
+                    point.x = settings.particles.size / 2 + point.x * settings.particles.size / 350;
+                    point.y = settings.particles.size / 2 - point.y * settings.particles.size / 350;
                     return point;
                 }
                 // create the path
@@ -247,7 +216,7 @@
                 }
                 context.closePath();
                 // create the fill
-                context.fillStyle = '#FFC0CB';
+                context.fillStyle = '#ea80b0';
                 context.fill();
                 // create the image
                 var image = new Image();
@@ -267,30 +236,6 @@
 
                 // clear canvas
                 context.clearRect(0, 0, canvas.width, canvas.height);
-
-                context.font = "50px 微软雅黑";
-
-                context.fillStyle = nameHeartColor;
-                // 计算字体长度
-                context.fillText(name2, canvas.width / 2 - 24 * name2.length, canvas.height / 2 - 24);
-
-                for (var i = 0; i < words_attr.length; i++) {
-                    context.font = words_attr[i].font;
-                    context.fillStyle = nameFlowColor;
-                    // console.log("words_attr[i].x = ", words_attr[i].x, " words_attr[i].y = ", words_attr[i].y)
-
-                    // 飘屏文字
-                    context.fillText(words_attr[i].text, words_attr[i].x, words_attr[i].y);
-                    context.stroke();
-                }
-                for (var i = 0; i < words_attr.length; i++) {
-                    if (words_attr[i].x > canvas.width || words_attr[i].x < 0) {
-                        words_attr[i].speed = -words_attr[i].speed;
-                    }
-                    words_attr[i].x += words_attr[i].speed;
-                }
-
-                // console.log("words_attr = ", words_attr);
 
                 // create new particles
                 var amount = particleRate * deltaTime;
@@ -314,23 +259,6 @@
 
             // delay rendering bootstrap
             setTimeout(function () {
-                // console.log(document.body.clientWidth())
-                Word = function (key) {
-                    this.text = key;
-                    // console.log("canvas.width = ", canvas.width,  "canvas.height = ", canvas.height)
-                    this.x = Math.random() * canvas.width;
-                    this.y = Math.random() * document.body.clientHeight;
-                    // console.log("this.x = ", this.x,  "this.y = ", this.y)
-                    this.font = Math.random() * 50 + 'px ' + myfont;
-                    this.speed = Math.random() * 4;
-                }
-
-
-                for (var i = 0; i < words.length; i++) {
-                    words_attr.push(new Word(words[i]));
-                }
-
-
                 onResize();
                 render();
             }, 10);
